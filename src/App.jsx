@@ -81,15 +81,15 @@ function App() {
         <ImageGallery images={images} openModal={openModal} />
       )}
       {loading && <Loader />}
-      {isVisible && (
-        <LoadMoreBtn onClick={loadMore} disabled={loading}></LoadMoreBtn>
+      {isVisible && !loading && (
+        <LoadMoreBtn onClick={loadMore}></LoadMoreBtn>
       )}
-      <ImageModal
+      {showedModal && <ImageModal
         modalIsOpen={showedModal}
         closeModal={closeModal}
         src={modalUrl}
         alt={modalAlt}
-      />
+      />}
     </div>
   );
 }
