@@ -31,7 +31,7 @@ export const SearchBar = ({ onSearch }) => {
         <input
           type="text"
           autoFocus
-          placeholder="Search images and photos"
+          placeholder="Жопа"
           value={query}
           onChange={handleChange}
         />
