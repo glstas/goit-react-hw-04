@@ -9,7 +9,7 @@ import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
 
 function App() {
-  const [query, setQuery] = useState(1);
+  const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -19,10 +19,13 @@ function App() {
   const [modalAlt, setModalAlt] = useState("");
   const [showedModal, setShowedModal] = useState(false);
 
-  const handleSearch = async () => {
+  const handleSearch = async (q) => {
+    if (!q) {
+      q = query
+    }
     try {
       setLoading(true);
-      const response = await fetchImage(query, page);
+      const response = await fetchImage(q, page);
       const { results, total_pages } = response || {};
 
       if (!results || results.length === 0) {
@@ -51,7 +54,7 @@ function App() {
     setPage(1);
     setIsVisible(false);
     setError(null);
-    handleSearch();
+    handleSearch(q);
   };
 
   const loadMore = () => {
