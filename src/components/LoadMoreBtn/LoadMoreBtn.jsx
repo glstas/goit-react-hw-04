@@ -1,9 +1,9 @@
 import React from "react";
 
-const LoadMoreBtn = ({ onClick, disabled }) => {
+const LoadMoreBtn = ({ onClick }) => {
   return (
     <div>
-      <button onClick={onClick} disabled={disabled}>
+      <button onClick={onClick}>
         LoadMore
       </button>
     </div>
