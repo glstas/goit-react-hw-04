@@ -9,6 +9,7 @@ import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
 
 function App() {
+  const [query, setQuery] = useState(1);
   const [page, setPage] = useState(1);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,34 +19,34 @@ function App() {
   const [modalAlt, setModalAlt] = useState("");
   const [showedModal, setShowedModal] = useState(false);
 
+  const handleSearch = async () => {
+    try {
+      setLoading(true);
+      const response = await fetchImage(query, page);
+      const { results, total_pages } = response || {};
 
-  const onHandleSubmit = (query) => {
-    if (!query) {
+      if (!results || results.length === 0) {
+        toast.error("Something went wrong!");
+
+        return;
+      }
+
+      setImages((prev) => [...prev, ...results]);
+      setIsVisible(page < total_pages);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onHandleSubmit = (q) => {
+    if (!q) {
       return;
     }
-    
-    const handleSearch = async () => {
-      try {
-        setLoading(true);
-        const response = await fetchImage(query, page);
-        const { results, total_pages } = response || {};
 
-        if (!results || results.length === 0) {
-          toast.error("Something went wrong!");
-
-          return;
-        }
-
-        setImages((prev) => [...prev, ...results]);
-        setIsVisible(page < total_pages);
-      } catch (error) {
-        console.log(error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
+    setQuery(q)
     setImages([]);
     setPage(1);
     setIsVisible(false);
@@ -55,6 +56,7 @@ function App() {
 
   const loadMore = () => {
     setPage((prevPage) => prevPage + 1);
+    handleSearch();
   };
 
   const openModal = (url, alt) => {
