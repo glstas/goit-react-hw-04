@@ -24,7 +24,7 @@ function App() {
       return;
     }
     
-    handleSearch = async () => {
+    const handleSearch = async () => {
       try {
         setLoading(true);
         const response = await fetchImage(query, page);
